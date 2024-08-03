@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import '../models/weather_model.dart';
+import 'package:http/http.dart' as http;
 
 Future<CityWeather> getWeather(String city) async {
   String url =
@@ -12,7 +15,18 @@ Future<CityWeather> getWeather(String city) async {
   return CityWeather();
 }
 
-Future<Iterable<String>> getCountries(String name) async {
+Future<CityWeather> getWeather2(String city) async {
+  var uri = Uri.parse(
+      'https://api.openweathermap.org/data/2.5/weather?q=$city&appid=10530cd042fdda8d65051ca864fc86bf');
+  var response = await http.get(uri);
+  var responseMap = json.decode(response.body);
+  if (response.statusCode == 200) {
+    return CityWeather.fromJson(responseMap);
+  }
+  return CityWeather();
+}
+
+Future<List<String>> getCountries(String name) async {
   String url =
       'https://www.yahoo.com/news/_tdnews/api/resource/WeatherSearch;text=$name';
   Dio dio = Dio();
@@ -33,7 +47,7 @@ Future<Iterable<String>> getCountries(String name) async {
   var cities = (response.data as List);
 
   if (response.statusCode == 200) {
-    return cities.map((user) => user['city'] as String);
+    return cities.map((element) => element['city'] as String).toList();
   }
   return [];
 }

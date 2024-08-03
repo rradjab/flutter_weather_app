@@ -17,7 +17,7 @@ class _MyWidgetState extends State<Weather> {
   @override
   void initState() {
     super.initState();
-    _cityWeather = getWeather('Baku');
+    _cityWeather = getWeather2('Baku');
   }
 
   @override
@@ -33,7 +33,7 @@ class _MyWidgetState extends State<Weather> {
             },
             onSelected: (String selection) {
               setState(() {
-                _cityWeather = getWeather(selection);
+                _cityWeather = getWeather2(selection);
               });
             },
           ),
